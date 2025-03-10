@@ -1,8 +1,8 @@
 package dev.Zerphyis.gestao.Service;
 
 import dev.Zerphyis.gestao.Entity.Benefit.Benefit;
-import dev.Zerphyis.gestao.Entity.Data.DataEmployee;
-import dev.Zerphyis.gestao.Entity.Data.DataResponseEmployee;
+import dev.Zerphyis.gestao.Entity.Data.Employee.DataEmployee;
+import dev.Zerphyis.gestao.Entity.Data.Employee.DataResponseEmployee;
 import dev.Zerphyis.gestao.Entity.Employee.Employee;
 import dev.Zerphyis.gestao.Entity.Position.Position;
 import dev.Zerphyis.gestao.Repositorys.RepositoryEmployee;
