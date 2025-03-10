@@ -1,4 +1,4 @@
-package dev.Zerphyis.gestao.Entity.Data;
+package dev.Zerphyis.gestao.Entity.Data.Employee;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
