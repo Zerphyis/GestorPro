@@ -1,7 +1,7 @@
 package dev.Zerphyis.gestao.Entity.Employee;
 
 import dev.Zerphyis.gestao.Entity.Benefit.Benefit;
-import dev.Zerphyis.gestao.Entity.Data.DataEmployee;
+import dev.Zerphyis.gestao.Entity.Data.Employee.DataEmployee;
 import dev.Zerphyis.gestao.Entity.Position.Position;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
