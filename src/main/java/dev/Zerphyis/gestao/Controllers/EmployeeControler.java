@@ -1,7 +1,7 @@
 package dev.Zerphyis.gestao.Controllers;
 
-import dev.Zerphyis.gestao.Entity.Data.DataEmployee;
-import dev.Zerphyis.gestao.Entity.Data.DataResponseEmployee;
+import dev.Zerphyis.gestao.Entity.Data.Employee.DataEmployee;
+import dev.Zerphyis.gestao.Entity.Data.Employee.DataResponseEmployee;
 import dev.Zerphyis.gestao.Service.ServiceEmployee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
