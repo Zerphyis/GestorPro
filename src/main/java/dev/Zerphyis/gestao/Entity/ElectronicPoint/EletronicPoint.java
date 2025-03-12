@@ -9,7 +9,7 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_pontoEletronico")
+@Table(name = "tb_ponto_eletronico")
 public class EletronicPoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
