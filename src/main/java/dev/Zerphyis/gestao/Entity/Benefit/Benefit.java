@@ -7,10 +7,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "tb_Beneficios")
+@Table(name = "tb_beneficios")
 public class Benefit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +21,8 @@ public class Benefit {
     @NotNull
     private BigDecimal benefitValue;
 
-    @ManyToMany(mappedBy = "benefit")
-    private List<Payroll> payrolls;
+    @ManyToMany(mappedBy = "benefits")
+    private List<Payroll> payrolls = new ArrayList<>();
 
     public Benefit(){
 
@@ -45,5 +46,13 @@ public class Benefit {
 
     public void setBenefitValue(BigDecimal benefitValue) {
         this.benefitValue = benefitValue;
+    }
+
+    public List<Payroll> getPayrolls() {
+        return payrolls;
+    }
+
+    public void setPayrolls(List<Payroll> payrolls) {
+        this.payrolls = payrolls;
     }
 }
