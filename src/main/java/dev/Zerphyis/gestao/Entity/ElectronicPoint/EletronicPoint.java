@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
@@ -18,15 +19,17 @@ public class EletronicPoint {
     @ManyToOne
     @JoinColumn(name = "funcionario_id")
     private Employee EmployeeId;
-    private LocalDateTime entryTime;
-    private LocalDateTime exitTime;
+    private LocalTime entryTime;
+    private  LocalDate date;
+    private LocalTime exitTime;
 
     public EletronicPoint(){
 
     }
-    public EletronicPoint(Employee employee ){
+    public EletronicPoint(Employee employee , LocalDate date ){
         this.EmployeeId=employee;
-        this.entryTime=LocalDateTime.now();
+        this.date=date;
+        this.entryTime=LocalTime.now();
 
 
     }
@@ -39,19 +42,27 @@ public class EletronicPoint {
         EmployeeId = employeeId;
     }
 
-    public LocalDateTime getEntryTime() {
+    public LocalTime getEntryTime() {
         return entryTime;
     }
 
-    public void setEntryTime(LocalDateTime entryTime) {
+    public void setEntryTime(LocalTime entryTime) {
         this.entryTime = entryTime;
     }
 
-    public LocalDateTime getExitTime() {
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalTime getExitTime() {
         return exitTime;
     }
 
-    public void setExitTime(LocalDateTime exitTime) {
+    public void setExitTime(LocalTime exitTime) {
         this.exitTime = exitTime;
     }
 }
