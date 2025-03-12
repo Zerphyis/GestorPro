@@ -2,8 +2,10 @@ package dev.Zerphyis.gestao.Service;
 
 import dev.Zerphyis.gestao.Entity.Benefit.Benefit;
 import dev.Zerphyis.gestao.Entity.Data.Payroll.DataPayrolEntry;
+import dev.Zerphyis.gestao.Entity.Data.Payroll.DataPayrolExit;
 import dev.Zerphyis.gestao.Entity.Employee.Employee;
 import dev.Zerphyis.gestao.Entity.Payroll.Payroll;
+import dev.Zerphyis.gestao.Entity.Position.Position;
 import dev.Zerphyis.gestao.Repositorys.RepositoryEmployee;
 import dev.Zerphyis.gestao.Repositorys.RepositoryPayroll;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +69,7 @@ public class ServicePayroll {
 
         payroll.setBaseSalary(employee.getWage());
         payroll.setDiscount(discount);
-        payroll.setBenefit(benefits);
+        payroll.setBenefits(benefits);
         payroll.setWage(finalWage);
 
         return repositoryPayroll.save(payroll);
@@ -78,6 +80,17 @@ public class ServicePayroll {
                 .orElseThrow(() -> new RuntimeException("Folha de pagamento não encontrada"));
 
         repositoryPayroll.delete(payroll);
+    }
+
+    public List<DataPayrolExit> ListAll() {
+        List<Payroll> payrolls = repositoryPayroll.findAll();
+
+        return payrolls.stream()
+                .map(payroll -> new DataPayrolExit(
+                        payroll.getBaseSalary(),
+                        payroll.getDiscount(),
+                        payroll.getWage()))
+                .toList();
     }
 
     private BigDecimal calculateDiscount(BigDecimal totalBenefits, int benefitsCount) {
