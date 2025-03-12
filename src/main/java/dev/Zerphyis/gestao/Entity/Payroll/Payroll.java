@@ -21,7 +21,7 @@ public class Payroll {
 
     private BigDecimal baseSalary;
     private BigDecimal discount;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Benefit> benefit;
     private BigDecimal wage;
 
@@ -50,11 +50,18 @@ public class Payroll {
             }
         }
 
+        BigDecimal discount = calculateDiscount(benefit.size(), baseSalary);
+
         BigDecimal finalSalary = baseSalary.add(totalBenefits).subtract(discount);
 
         this.wage = finalSalary;
     }
 
+    private BigDecimal calculateDiscount(int numBenefits, BigDecimal baseSalary) {
+        BigDecimal discountPercentage = new BigDecimal("0.04"); // 4% de desconto
+        BigDecimal totalDiscount = baseSalary.multiply(discountPercentage).multiply(new BigDecimal(numBenefits));
+        return totalDiscount;
+    }
     public BigDecimal getWage() {
         return wage;
     }
