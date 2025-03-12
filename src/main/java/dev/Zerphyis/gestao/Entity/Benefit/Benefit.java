@@ -1,11 +1,13 @@
 package dev.Zerphyis.gestao.Entity.Benefit;
 
 import dev.Zerphyis.gestao.Entity.Data.DataBenefit;
+import dev.Zerphyis.gestao.Entity.Payroll.Payroll;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_Beneficios")
@@ -17,6 +19,9 @@ public class Benefit {
     private String nameBenefit;
     @NotNull
     private BigDecimal benefitValue;
+
+    @ManyToMany(mappedBy = "benefit")
+    private List<Payroll> payrolls;
 
     public Benefit(){
 
