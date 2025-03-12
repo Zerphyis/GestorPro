@@ -11,14 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ServiceEletronicPoint {
     @Autowired
     private RepositoryElotronicPoints eletronicPointRepository;
+
     @Autowired
     private RepositoryEmployee employeeRepository;
 
@@ -27,10 +28,10 @@ public class ServiceEletronicPoint {
         Employee employee = employeeRepository.findById(dataEntry.employeeId())
                 .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado"));
 
-        EletronicPoint eletronicPoint = new EletronicPoint(employee);
+        EletronicPoint eletronicPoint = new EletronicPoint(employee, LocalDate.now());
         eletronicPointRepository.save(eletronicPoint);
 
-        return new DataEletronicPointsReponseEntry(employee.getName(), eletronicPoint.getEntryTime());
+        return new DataEletronicPointsReponseEntry(employee.getName(), eletronicPoint.getEntryTime(), eletronicPoint.getDate());
     }
 
     @Transactional
@@ -38,7 +39,7 @@ public class ServiceEletronicPoint {
         EletronicPoint eletronicPoint = eletronicPointRepository.findById(eletronicPointId)
                 .orElseThrow(() -> new IllegalArgumentException("Registro de ponto não encontrado"));
 
-        eletronicPoint.setExitTime(LocalDateTime.now());
+        eletronicPoint.setExitTime(LocalTime.now());
         eletronicPointRepository.save(eletronicPoint);
     }
 
@@ -47,7 +48,8 @@ public class ServiceEletronicPoint {
                 .map(point -> new DataEletronicPoinsReponseExit(
                         point.getEmployeeId().getName(),
                         point.getEntryTime(),
-                        point.getExitTime()
+                        point.getExitTime(),
+                        point.getDate()
                 ))
                 .toList();
     }
