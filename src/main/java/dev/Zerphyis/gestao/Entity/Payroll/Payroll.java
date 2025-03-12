@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "folhaPagamento")
+@Table(name = "folha_pagamento")
 public class Payroll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,47 +21,58 @@ public class Payroll {
 
     private BigDecimal baseSalary;
     private BigDecimal discount;
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Benefit> benefit;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "folha_pagamento_beneficio",
+            joinColumns = @JoinColumn(name = "folha_pagamento_id"),
+            inverseJoinColumns = @JoinColumn(name = "tb_beneficio_id")
+    )
+    private List<Benefit> benefits = new ArrayList<>();
+
+
+
     private BigDecimal wage;
 
     public Payroll() {
         this.baseSalary = BigDecimal.ZERO;
         this.discount = BigDecimal.ZERO;
-        this.benefit = new ArrayList<>();
         this.wage = BigDecimal.ZERO;
     }
 
-    public Payroll(Employee employee, BigDecimal baseSalary, BigDecimal discount, List<Benefit> benefit) {
+    public Payroll(Employee employee, BigDecimal baseSalary, BigDecimal discount, List<Benefit> benefits) {
         this.employee = employee;
         this.baseSalary = baseSalary;
         this.discount = discount;
-        this.benefit = benefit != null ? benefit : new ArrayList<>();
         this.wage = BigDecimal.ZERO;
+        this.benefits = benefits != null ? new ArrayList<>(benefits) : new ArrayList<>();
     }
 
-
     public void calculateWage() {
-        BigDecimal totalBenefits = BigDecimal.ZERO;
+        BigDecimal totalBenefits = benefits.stream()
+                .map(Benefit::getBenefitValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        if (benefit != null && !benefit.isEmpty()) {
-            for (Benefit b : benefit) {
-                totalBenefits = totalBenefits.add(b.getBenefitValue());
-            }
-        }
-
-        BigDecimal discount = calculateDiscount(benefit.size(), baseSalary);
-
-        BigDecimal finalSalary = baseSalary.add(totalBenefits).subtract(discount);
-
-        this.wage = finalSalary;
+        BigDecimal discount = calculateDiscount(benefits.size(), baseSalary);
+        this.wage = baseSalary.add(totalBenefits).subtract(discount);
     }
 
     private BigDecimal calculateDiscount(int numBenefits, BigDecimal baseSalary) {
-        BigDecimal discountPercentage = new BigDecimal("0.04"); // 4% de desconto
-        BigDecimal totalDiscount = baseSalary.multiply(discountPercentage).multiply(new BigDecimal(numBenefits));
-        return totalDiscount;
+        BigDecimal discountPercentage = new BigDecimal("0.04"); // 4% de desconto por benefício
+        return baseSalary.multiply(discountPercentage).multiply(new BigDecimal(numBenefits));
     }
+
+    public void addBenefit(Benefit benefit) {
+        if (!this.benefits.contains(benefit)) {
+            this.benefits.add(benefit);
+        }
+    }
+
+    public void removeBenefit(Benefit benefit) {
+        this.benefits.remove(benefit);
+    }
+
+    // Getters e Setters
     public BigDecimal getWage() {
         return wage;
     }
@@ -78,12 +89,8 @@ public class Payroll {
         return discount;
     }
 
-    public List<Benefit> getBenefit() {
-        return benefit;
-    }
-
-    public void setWage(BigDecimal wage) {
-        this.wage = wage;
+    public List<Benefit> getBenefits() {
+        return benefits;
     }
 
     public Employee getEmployee() {
@@ -102,8 +109,12 @@ public class Payroll {
         this.discount = discount;
     }
 
-    public void setBenefit(List<Benefit> benefit) {
-        this.benefit = benefit;
+    public void setBenefits(List<Benefit> benefits) {
+        this.benefits = new ArrayList<>(benefits);
+    }
+
+    public void setWage(BigDecimal wage) {
+        this.wage = wage;
     }
 }
 
