@@ -15,6 +15,7 @@ public class ServiceBenefit {
     RepositorysBenefit repository;
 
 
+
     public Benefit registerBenefit(DataBenefit data) {
         var benefit = new Benefit(data);
         return repository.save(benefit);
