@@ -1,6 +1,6 @@
 package dev.Zerphyis.gestao.Entity.Benefit;
 
-import dev.Zerphyis.gestao.Entity.Data.DataBenefit;
+import dev.Zerphyis.gestao.Entity.Data.Benefit.DataBenefit;
 import dev.Zerphyis.gestao.Entity.Payroll.Payroll;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -20,6 +20,7 @@ public class Benefit {
     private String nameBenefit;
     @NotNull
     private BigDecimal benefitValue;
+
 
     @ManyToMany(mappedBy = "benefits")
     private List<Payroll> payrolls = new ArrayList<>();
