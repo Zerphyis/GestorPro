@@ -1,6 +1,4 @@
-package dev.Zerphyis.gestao.Entity.Data;
-
-import jakarta.validation.constraints.NotNull;
+package dev.Zerphyis.gestao.Entity.Data.Benefit;
 
 import java.math.BigDecimal;
 
