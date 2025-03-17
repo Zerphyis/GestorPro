@@ -1,8 +1,10 @@
 package dev.Zerphyis.gestao.Controllers;
 
 import dev.Zerphyis.gestao.Entity.Benefit.Benefit;
-import dev.Zerphyis.gestao.Entity.Data.DataBenefit;
+import dev.Zerphyis.gestao.Entity.Data.Benefit.DataBenefit;
+import dev.Zerphyis.gestao.Entity.Data.Benefit.ResponseBenefit;
 import dev.Zerphyis.gestao.Service.ServiceBenefit;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +37,14 @@ public class BenefitControllers {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Benefit>> listAllBenefits() {
+    public ResponseEntity<List<ResponseBenefit>> listAllBenefits() {
         List<Benefit> benefits = service.ListAll();
-        return ResponseEntity.ok(benefits);
+
+        List<ResponseBenefit> response = benefits.stream()
+                .map(b -> new ResponseBenefit(b.getNameBenefit(), b.getBenefitValue()))
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")

@@ -1,7 +1,7 @@
 package dev.Zerphyis.gestao.Service;
 
 import dev.Zerphyis.gestao.Entity.Benefit.Benefit;
-import dev.Zerphyis.gestao.Entity.Data.DataBenefit;
+import dev.Zerphyis.gestao.Entity.Data.Benefit.DataBenefit;
 import dev.Zerphyis.gestao.Repositorys.RepositorysBenefit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
